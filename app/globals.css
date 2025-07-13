@@ -120,3 +120,6 @@
     @apply bg-background text-foreground;
   }
 }
+.font-montserrat {
+  font-family: var(--font-montserrat);
+}
