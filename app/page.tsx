@@ -1,103 +1,150 @@
+"use client";
+import { useState } from "react";
+import { Send, User, X } from "lucide-react";
 import Image from "next/image";
+const users = [
+  { id: 1, name: "Alice Johnson" },
+  { id: 2, name: "Michael Smith" },
+  { id: 3, name: "Sophia Williams" },
+  { id: 4, name: "David Brown" },
+];
 
-export default function Home() {
+const Page = () => {
+  const [selectedUser, setSelectedUser] = useState<number | null>(null);
+  const [messages, setMessages] = useState<
+    Record<number, { text: string; sender: string }[]>
+  >({});
+  const [input, setInput] = useState("");
+
+  const handleSendMessage = () => {
+    if (!input.trim() || !selectedUser) return;
+
+    setMessages((prev) => ({
+      ...prev,
+      [selectedUser]: [
+        ...(prev[selectedUser] || []),
+        { text: input, sender: "user" },
+      ],
+    }));
+    setInput("");
+
+    setTimeout(() => {
+      setMessages((prev) => ({
+        ...prev,
+        [selectedUser]: [
+          ...(prev[selectedUser] || []),
+          {
+            text: "I'm still learning! But I'll try my best to help.",
+            sender: "bot",
+          },
+        ],
+      }));
+    }, 1000);
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div
+      className="flex items-center justify-center min-h-screen bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('/living.jpg')" }}
+    >
+      <div className="flex h-[500px] w-9/12  justify-center mx-auto  my-auto border   bg-white/15 rounded-2xl backdrop-blur-md text-white">
+        {/* Sidebar */}
+        <div className="w-1/4  text-white p-6">
+          <h2 className="text-lg font-semibold mb-4">Chats</h2>
+          <div className="flex flex-col gap-4">
+            {users.map((user) => (
+              <div
+                key={user.id}
+                className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all duration-300
+                hover:bg-[#444] ${
+                  selectedUser === user.id ? "bg-[#8C52FF]" : "bg-[#333]"
+                }`}
+                onClick={() => setSelectedUser(user.id)}
+              >
+                <User className="text-xl" />
+                <span className="text-sm">{user.name}</span>
+              </div>
+            ))}
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {/* Chat Window */}
+        <div className="flex-1 flex flex-col  h-full shadow-md">
+          {selectedUser ? (
+            <>
+              {/* Chat Header */}
+              <div className="bg-[#8C52FF] text-white p-4 flex justify-between">
+                <span className="font-semibold text-lg font-Sora">
+                  {users.find((u) => u.id === selectedUser)?.name}
+                </span>
+                <button onClick={() => setSelectedUser(null)}>
+                  <X className="size-5" />
+                </button>
+              </div>
+
+              {/* Messages */}
+              <div className="flex-1 overflow-y-auto p-4">
+                {(messages[selectedUser] || []).map((msg, index) => (
+                  <div
+                    key={index}
+                    className={`flex ${
+                      msg.sender === "user" ? "justify-end" : "justify-start"
+                    } mb-2`}
+                  >
+                    <div
+                      className={`px-4 py-2 rounded-lg text-sm max-w-xs ${
+                        msg.sender === "user"
+                          ? "bg-[#8C52FF] text-white"
+                          : "bg-gray-300 text-gray-800"
+                      }`}
+                    >
+                      {msg.text}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Input Field */}
+              <div className="border-t p-3 bg-gray-50 flex items-center sticky bottom-0">
+                <input
+                  type="text"
+                  className="flex-1 border rounded-lg px-3 py-2 focus:outline-none text-sm"
+                  placeholder="Type a message..."
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
+                />
+                <button
+                  className="ml-2 bg-[#8C52FF] text-white p-2 rounded-full"
+                  onClick={handleSendMessage}
+                >
+                  <Send className="size-5" />
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="flex-1 flex flex-col items-center justify-center text-gray-600">
+              <div className=" flex items-center">
+                <Image
+                  src="/placeholder.png"
+                  alt="Start messaging illustration"
+                  className=" size-64"
+                  width={256}
+                  height={256}
+                />
+              </div>
+              <h2 className="text-xl font-semibold">
+                Select a chat to start messaging
+              </h2>
+              <p className="text-sm">
+                Click on a user from the left panel to begin chatting.
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
-}
+};
+
+export default Page;
