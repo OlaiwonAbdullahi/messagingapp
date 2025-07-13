@@ -10,7 +10,29 @@ import {
   ArrowLeft,
 } from "lucide-react";
 
-const users = [
+// ------------------------
+// Type Definitions
+// ------------------------
+
+interface User {
+  id: number;
+  name: string;
+  text: string;
+  time: string;
+  avatar: string;
+}
+
+interface Message {
+  text: string;
+  sender: "user" | "contact";
+  time: string;
+}
+
+// ------------------------
+// Sample Data
+// ------------------------
+
+const users: User[] = [
   {
     id: 1,
     name: "Arlene McCoy",
@@ -55,7 +77,7 @@ const users = [
   },
 ];
 
-const sampleMessages = {
+const sampleMessages: Record<number, Message[]> = {
   2: [
     {
       text: "Hey there! 😊 I've been feeling quite overwhelmed lately with work.",
@@ -76,16 +98,21 @@ const sampleMessages = {
   ],
 };
 
+// ------------------------
+// Page Component
+// ------------------------
+
 const Page = () => {
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [messages, setMessages] = useState(sampleMessages);
-  const [input, setInput] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedUser, setSelectedUser] = useState<number | null>(null);
+  const [messages, setMessages] =
+    useState<Record<number, Message[]>>(sampleMessages);
+  const [input, setInput] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const handleSendMessage = () => {
-    if (!input.trim() || !selectedUser) return;
+    if (!input.trim() || selectedUser === null) return;
 
-    const newMessage = {
+    const newMessage: Message = {
       text: input,
       sender: "user",
       time: new Date().toLocaleTimeString([], {
@@ -98,11 +125,11 @@ const Page = () => {
       ...prev,
       [selectedUser]: [...(prev[selectedUser] || []), newMessage],
     }));
+
     setInput("");
 
-    // Auto-reply after 2 seconds
     setTimeout(() => {
-      const autoReply = {
+      const autoReply: Message = {
         text: "Thanks for your message! I'll get back to you soon.",
         sender: "contact",
         time: new Date().toLocaleTimeString([], {
@@ -124,17 +151,17 @@ const Page = () => {
 
   return (
     <div
-      className="flex items-center justify-center min-h-screen  p-4 bg-cover bg-no-repeat
+      className="flex items-center justify-center min-h-screen  bg-cover bg-no-repeat
     "
       style={{ background: 'url("./living.jpg")', backgroundSize: "contain" }}
     >
-      <div className="flex h-[600px] w-full max-w-5xl bg-black/20 backdrop-blur-xl rounded-3xl border border-white/20 shadow-2xl overflow-hidden">
+      <div className="flex h-screen w-full  bg-black/20 backdrop-blur-xl border border-white/20 shadow-2xl overflow-hidden">
         {/* Sidebar */}
         <div className="w-80 bg-black/10 backdrop-blur-md border-r border-white/10">
           {/* Header */}
           <div className="px-6 pt-6">
             <div className="flex items-center justify-between mb-4">
-              <h1 className="text-2xl font-bold text-white">Messages</h1>
+              <h1 className="text-2xl font-medium text-white">Messages</h1>
               <button className="p-2 hover:bg-white/10 rounded-full transition-colors">
                 <Mic className="w-5 h-5 text-white" />
               </button>
@@ -160,7 +187,7 @@ const Page = () => {
                 className={`flex items-center p-4 hover:bg-white/10 cursor-pointer transition-all duration-200 ${
                   selectedUser === user.id ? "bg-white/20" : ""
                 }`}
-                onClick={() => setSelectedUser(user.id)}
+                onClick={() => setSelectedUser(user.id)} // This should work if user.id is a number
               >
                 <img
                   src={user.avatar}
@@ -318,7 +345,7 @@ const Page = () => {
               <div className="w-32 h-32 mb-6 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center">
                 <MessageCircle className="w-16 h-16 text-white/60" />
               </div>
-              <h2 className="text-2xl font-bold text-white mb-2">
+              <h2 className="text-2xl font-medium text-white mb-2">
                 Select a chat to start messaging
               </h2>
               <p className="text-white/60 max-w-md">
