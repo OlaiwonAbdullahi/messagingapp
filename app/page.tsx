@@ -263,7 +263,7 @@ const Page = () => {
               <div className="flex-1 overflow-y-auto p-4 space-y-4">
                 {(messages[selectedUser] || []).map((msg, i) => (
                   <div
-                    key={i}
+                    key={index}
                     className={`flex ${
                       msg.sender === "user" ? "justify-end" : "justify-start"
                     }`}
@@ -278,10 +278,10 @@ const Page = () => {
                       )}
                       <div>
                         <div
-                          className={`px-4 py-2 rounded-2xl text-white backdrop-blur-md ${
+                          className={`px-4 py-2 rounded-2xl backdrop-blur-md ${
                             msg.sender === "user"
-                              ? "bg-white/30 rounded-br-none"
-                              : "bg-black/15 rounded-bl-none"
+                              ? "bg-white/30 text-white rounded-br-none"
+                              : "bg-black/15 text-white rounded-bl-none"
                           }`}
                         >
                           <p className="text-sm">{msg.text}</p>
