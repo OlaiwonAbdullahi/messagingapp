@@ -174,7 +174,7 @@ const Page = () => {
               />
             </div>
 
-            <div className="overflow-y-auto h-[calc(100%-180px)]">
+            <div className="overflow-y-auto h-[calc(100%-180px)] hide-scrollbar">
               {filteredUsers.map((user) => (
                 <div
                   key={user.id}
@@ -260,7 +260,7 @@ const Page = () => {
               </div>
 
               {/* Messages */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              <div className="flex-1 overflow-y-auto hide-scrollbar p-4 space-y-4">
                 {(messages[selectedUser] || []).map((msg, i) => (
                   <div
                     key={i}
