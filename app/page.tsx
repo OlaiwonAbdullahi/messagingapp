@@ -303,7 +303,7 @@ const Page = () => {
               </div>
 
               {/* Input */}
-              <div className="p-4 border-t border-white/10 bg-black/20 flex fixed bottom-0">
+              <div className="p-4 border-t border-white/10 bg-black/20 ">
                 <div className="flex gap-2">
                   <div className="flex items-center gap-2 flex-1 bg-white/20 rounded-xl px-4 py-2">
                     <input
