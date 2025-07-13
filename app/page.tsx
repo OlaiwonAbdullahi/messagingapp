@@ -174,7 +174,7 @@ const Page = () => {
               />
             </div>
 
-            <div className="overflow-y-auto h-[calc(100%-180px)] hide-scrollbar">
+            <div className="overflow-y-auto md:h-[calc(100%-180px)] h-screen hide-scrollbar">
               {filteredUsers.map((user) => (
                 <div
                   key={user.id}
