@@ -157,9 +157,8 @@ const Page = () => {
             {filteredUsers.map((user) => (
               <div
                 key={user.id}
-                className={`flex items-center p-4 hover:bg-white/10 cursor-pointer transition-all duration-200 ${
-                  selectedUser === user.id ? "bg-white/20" : ""
-                }`}
+                className={`flex items-center p-4 hover:bg-white/10 cursor-pointer transition-all duration-200 ${selectedUser === user.id ? "bg-white/20" : ""
+                  }`}
                 onClick={() => setSelectedUser(user.id)}
               >
                 <img
@@ -248,9 +247,8 @@ const Page = () => {
                 {(messages[selectedUser] || []).map((msg, index) => (
                   <div
                     key={index}
-                    className={`flex ${
-                      msg.sender === "user" ? "justify-end" : "justify-start"
-                    }`}
+                    className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"
+                      }`}
                   >
                     <div className="flex items-end gap-2 max-w-xs">
                       {msg.sender === "contact" && (
@@ -262,11 +260,10 @@ const Page = () => {
                       )}
                       <div>
                         <div
-                          className={`px-4 py-2 rounded-2xl backdrop-blur-md ${
-                            msg.sender === "user"
+                          className={`px-4 py-2 rounded-2xl backdrop-blur-md ${msg.sender === "user"
                               ? "bg-white/30 text-white rounded-br-none"
                               : "bg-black/15 text-white rounded-bl-none"
-                          }`}
+                            }`}
                         >
                           <p className="text-sm">{msg.text}</p>
                         </div>
